@@ -40,5 +40,9 @@ public class ContactSevice {
 		contactRepository.delete(contact);
 		return contact;
 	}
+
+	public List<Contact> filteredByLastName(String lastName) {
+		return contactRepository.filterFeedbacks(lastName);
+	}
 	
 }	

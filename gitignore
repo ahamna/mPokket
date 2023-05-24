@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/frontend/contactlist/node_modules
+/frontend/contactlist/.pnp
+/frontend/contactlist/.pnp.js
+
+# testing
+/frontend/contactlist/coverage
+
+# production
+/frontend/contactlist/build
+
+# misc
+/frontend/contactlist/.DS_Store
+/frontend/contactlist/.env.local
+/frontend/contactlist/.env.development.local
+/frontend/contactlist/.env.test.local
+/frontend/contactlist/.env.production.local
+
+/frontend/contactlist/npm-debug.log*
+/frontend/contactlist/yarn-debug.log*
+/frontend/contactlist/yarn-error.log*
