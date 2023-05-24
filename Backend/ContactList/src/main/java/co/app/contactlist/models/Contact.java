@@ -1,5 +1,6 @@
 package co.app.contactlist.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Contact extends Base {
+	@Column
 	private String firstName;
+	@Column
 	private String lastName;
+	@Column
 	private String phone;
 }

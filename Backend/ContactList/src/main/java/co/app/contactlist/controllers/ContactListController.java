@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.app.contactlist.exceptions.ContactNotFound;
 import co.app.contactlist.models.Contact;
 import co.app.contactlist.services.ContactSevice;
 
@@ -22,7 +24,7 @@ public class ContactListController {
 	public ContactListController(ContactSevice contactService) {
 		this.contactService = contactService;
 	}
-	@GetMapping(path = "/")
+	@GetMapping
 	ResponseEntity<List<Contact>> getAllContact(){
 		List<Contact> contacts = contactService.getAllContact();
 		if(contacts.size()  == 0) {
@@ -31,20 +33,16 @@ public class ContactListController {
 			return new ResponseEntity<List<Contact>>(contacts, HttpStatus.OK);
 		}
 	}
-	@GetMapping(path = "/{id}")
-	ResponseEntity<Contact> getContact(@PathVariable Long id){
+	@GetMapping(value = "/{id}")
+	ResponseEntity<Contact> getContact(@PathVariable Long id) throws ContactNotFound{
 		Contact contact;
-		try {
-			contact = contactService.getContact(id);
-		} catch (Exception e) {
-			return new ResponseEntity<Contact>(HttpStatus.NOT_FOUND);
-		}
+		contact = contactService.getContact(id);
 		return new ResponseEntity<Contact>(contact, HttpStatus.OK);
 		
 	}
 	
 	@PostMapping
-	ResponseEntity<Contact> createContact(Contact contact){
+	ResponseEntity<Contact> createContact(@RequestBody Contact contact){
 		Contact createdContact = contactService.createContact(contact);
 		if(createdContact == null) {
 			return new ResponseEntity<Contact>(HttpStatus.BAD_REQUEST);
@@ -54,18 +52,14 @@ public class ContactListController {
 	}
 	
 	@PutMapping
-	ResponseEntity<Contact> updateContact(Contact contact){
+	ResponseEntity<Contact> updateContact(@RequestBody Contact contact) throws ContactNotFound{
 		Contact updatedContact = contactService.updateContact(contact);
 		return new ResponseEntity<Contact>(updatedContact, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{id}")
-	ResponseEntity<Contact> deleteContact(@PathVariable Long id){
+	@DeleteMapping(value = "/{id}")
+	ResponseEntity<Contact> deleteContact(@PathVariable Long id) throws ContactNotFound{
 		Contact contact = contactService.deleteContact(id);
-		if(contact == null) {
-			return new ResponseEntity<Contact>(HttpStatus.NOT_FOUND);
-		}else {
-			return new ResponseEntity<Contact>(contact, HttpStatus.OK);
-		}
+		return new ResponseEntity<Contact>(contact, HttpStatus.OK);
 	}
 }
